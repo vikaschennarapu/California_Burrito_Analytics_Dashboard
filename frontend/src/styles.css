@@ -1,0 +1,33 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+       background: #f3f4f6; color: #111827; }
+.page { max-width: 1280px; margin: 0 auto; padding: 16px; }
+h1 { margin: 0; font-size: 1.6rem; }
+.sub, .note { color: #6b7280; font-size: 0.85rem; margin: 4px 0 0; }
+.filters, .card { background: #fff; border-radius: 10px; padding: 14px; margin-top: 14px;
+                  box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.dates { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-bottom: 8px; }
+.dates label { display: flex; flex-direction: column; font-size: 0.8rem; color: #374151; gap: 4px; }
+input[type="date"] { padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 6px; }
+.btn { padding: 8px 12px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px;
+       cursor: pointer; text-decoration: none; color: #111827; font-size: 0.85rem; }
+.btn.primary { background: #2563eb; color: #fff; border-color: #2563eb; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
+.chips-label { font-size: 0.8rem; font-weight: 600; width: 80px; }
+.chip { padding: 5px 10px; border-radius: 999px; border: 1px solid #d1d5db; background: #fff;
+        cursor: pointer; font-size: 0.8rem; }
+.chip.on { background: #2563eb; color: #fff; border-color: #2563eb; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 14px; }
+.kpi { background: #fff; border-radius: 10px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.kpi span { display: block; color: #6b7280; font-size: 0.8rem; }
+.kpi b { font-size: 1.4rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; margin-top: 14px; }
+.card h3 { margin: 0 0 8px; font-size: 1rem; }
+.chart { height: 300px; position: relative; }
+.toggle { position: absolute; top: -34px; right: 0; display: flex; gap: 6px; }
+.insights ul { margin: 0; padding-left: 18px; line-height: 1.7; }
+.error { color: #b91c1c; background: #fee2e2; padding: 8px 12px; border-radius: 6px; }
+.loading { color: #2563eb; font-size: 0.85rem; }
+.dim { opacity: 0.55; transition: opacity .2s; }
+footer { text-align: center; color: #9ca3af; font-size: 0.8rem; margin: 24px 0 8px; }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 1.25rem; } }
