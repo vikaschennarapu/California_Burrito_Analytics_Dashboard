@@ -2,13 +2,15 @@
 
 A web dashboard for ~300,000 restaurant line items (110,478 orders, 6 outlets, Jun 2025 to Jun 2026).
 
-- **Live app:** `https://california-burrito-analytics-dashboard-bgwh.onrender.com`  (free hosting: the first load after idle can take up to a minute)
+- **Live app:** https://california-burrito-analytics-dashboard-bgwh.onrender.com  (free hosting: the first load after idle can take up to a minute)
 - **Stack:** MySQL (Aiven) · FastAPI (Python) · React + Vite + Recharts · Docker on Render
 
 ## Screenshots
-`![Dashboard](docs/Dashboard%20Image.png)
+**Full Dashboard**
+![Dashboard](docs/Dashboard%20Image.png)
 
-![Filtered view](docs/Filtered%20Dashboard%20Image.png)`
+**Filtered view (Koramangala + Delivery)**
+![Filtered view](docs/Filtered%20Dashboard%20Image.png)
 
 ## What it does
 - KPI cards: orders, line items (records), revenue, average order value, items sold
@@ -30,20 +32,23 @@ Browser (React) <--JSON-- FastAPI (backend/) <--SQL aggregates---------- MySQL
 ### Why MySQL (and what I weighed)
 - The data is read-only and small, so SQLite would also work and is simpler. I chose MySQL because it is a standard server database: the app and the data are separate, many users can read at once, and it matches how a production system is usually built.
 - Cost of that choice: an extra service to host, a network hop on every query, and a free database that can be switched off when idle.
-- I also considered pre-aggregated summary tables. I did not use them: they cannot be added up for distinct order counts across categories, and indexed queries were fast enough.
+- I also considered pre-aggregated summary tables. I did not use them: they cannot be added up for distinct order counts across categories. Cold queries take about 1.4 to 2 seconds on the free database, and repeated requests with the same filters are served from the in-memory cache. With more budget, the next step would be a bigger database plan or a daily summary table for the metrics that don't need distinct counts.
 
 ## Performance
 - Indexes on date, outlet, category, order type, payment and bill number.
 - All 9 requests for a screen run in parallel; filter changes wait 300 ms and cancel old requests.
-- Gzip responses and a 5-minute in-memory cache keyed by the filters.
+- Gzip responses and a 5-minute in-memory cache keyed by the filters, so a repeated request with the same filters skips the database.
 - Every API response has an `X-Process-Time-ms` header.
 
-| Query (full data) | Measured on live app |
+Measured on the live app (free Render and Aiven plans). Each query below was a filter combination not requested in the last 5 minutes, so the database did the work:
+
+| Query | Server time, cold (ms) |
 |---|---|
-| KPIs | `<fill in ms>` |
-| Monthly trend | `<fill in ms>` |
-| Top items | `<fill in ms>` |
-| Full dashboard load (browser, warm) | `<fill in s>` |
+| KPIs | 1383 |
+| Monthly trend | 1792 |
+| Top 10 items | 1973 |
+
+Time is the `X-Process-Time-ms` header: server processing only, not network time. These are single readings on small free-tier servers, so they vary from request to request.
 
 ## Data findings and assumptions
 - **A "record" is a line item.** 300,000 line items = 110,478 orders. Orders are always counted with `COUNT(DISTINCT bill_no)`.
@@ -54,6 +59,7 @@ Browser (React) <--JSON-- FastAPI (backend/) <--SQL aggregates---------- MySQL
 - Some delivery orders are paid with "Cash/Card/Coupon". Shown as recorded.
 - No currency column: ₹ is assumed.
 - Dates are stored as `DATE` and handled as plain strings in the browser to avoid timezone shifts.
+- Chart axes use Indian units: L = lakh (1,00,000) and Cr = crore (1,00,00,000).
 
 ## Trade-offs and limits
 - Free Aiven database may be powered off if unused; free Render service sleeps when idle (slow first load).
@@ -81,3 +87,7 @@ notebooks/  01_explore_and_prepare.ipynb
 tests/      verify_reference_numbers.py
 Dockerfile  builds the React app, then the Python image
 ```
+
+## How I built this
+I used an AI assistant (Claude) for guidance and code, then loaded and verified the data myself, checked the dashboard numbers against totals computed separately with pandas, and deployed it. The AI tools were allowed in the brief.
+
