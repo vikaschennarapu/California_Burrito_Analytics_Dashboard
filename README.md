@@ -2,11 +2,13 @@
 
 A web dashboard for ~300,000 restaurant line items (110,478 orders, 6 outlets, Jun 2025 to Jun 2026).
 
-- **Live app:** `<ADD YOUR RENDER URL>`  (free hosting: the first load after idle can take up to a minute)
+- **Live app:** `https://california-burrito-analytics-dashboard-bgwh.onrender.com`  (free hosting: the first load after idle can take up to a minute)
 - **Stack:** MySQL (Aiven) · FastAPI (Python) · React + Vite + Recharts · Docker on Render
 
 ## Screenshots
-`<ADD 2 SCREENSHOTS HERE: full dashboard and a filtered view, in case the free database is asleep>`
+`![Dashboard](docs/Dashboard%20Image.png)
+
+![Filtered view](docs/Filtered%20Dashboard%20Image.png)`
 
 ## What it does
 - KPI cards: orders, line items (records), revenue, average order value, items sold
