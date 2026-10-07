@@ -1,0 +1,23 @@
+CREATE TABLE line_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  bill_no INT NOT NULL,
+  outlet_name VARCHAR(50) NOT NULL,
+  order_datetime DATETIME NOT NULL,
+  item_group VARCHAR(30) NOT NULL,
+  order_type VARCHAR(20) NOT NULL,
+  item VARCHAR(80) NOT NULL,
+  price INT NOT NULL,
+  quantity INT NOT NULL,
+  settlement VARCHAR(30) NOT NULL,
+  brand VARCHAR(50) NOT NULL,
+  revenue INT NOT NULL,
+  order_date DATE NOT NULL,
+  order_month CHAR(7) NOT NULL,
+  order_hour TINYINT NOT NULL,
+  INDEX ix_date (order_date),
+  INDEX ix_outlet (outlet_name),
+  INDEX ix_group (item_group),
+  INDEX ix_type (order_type),
+  INDEX ix_settle (settlement),
+  INDEX ix_bill (bill_no)
+)
