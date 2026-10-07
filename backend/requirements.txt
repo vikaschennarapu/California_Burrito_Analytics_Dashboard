@@ -1,0 +1,6 @@
+fastapi>=0.110,<1
+uvicorn[standard]>=0.29
+sqlalchemy>=2.0,<2.1
+pymysql>=1.1
+cryptography>=42
+python-dotenv>=1.0
